@@ -2,6 +2,7 @@
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine.TestTools;
+using UnityUITest;
 
 public class UITestExample : UITest
 {
