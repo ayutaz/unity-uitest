@@ -74,6 +74,16 @@ namespace UnityUITest
             return StartCoroutine(PressInternal(o));
         }
 
+        protected Coroutine Down(string buttonName)
+        {
+            return StartCoroutine(DownInternal(buttonName));
+        }
+
+        protected Coroutine Down(GameObject o)
+        {
+            return StartCoroutine(DownInternal(o));
+        }
+
         IEnumerator WaitForInternal(Condition condition, string stackTrace)
         {
             float time = 0;
@@ -101,6 +111,21 @@ namespace UnityUITest
             yield return WaitFor(new PointerClickAccessible(o));
             Debug.Log("Button pressed: " + o);
             ExecuteEvents.Execute(o, new PointerEventData(EventSystem.current), ExecuteEvents.pointerClickHandler);
+            yield return null;
+        }
+
+        IEnumerator DownInternal(string buttonName)
+        {
+            var buttonAppeared = new ObjectAppeared(buttonName);
+            yield return WaitFor(buttonAppeared);
+            yield return Down(buttonAppeared.o);
+        }
+
+        IEnumerator DownInternal(GameObject o)
+        {
+            yield return WaitFor(new PointerDownAccessible(o));
+            Debug.Log("Button down: " + o);
+            ExecuteEvents.Execute(o, new PointerEventData(EventSystem.current), ExecuteEvents.pointerDownHandler);
             yield return null;
         }
 
