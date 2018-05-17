@@ -98,7 +98,7 @@ namespace UnityUITest
 
         IEnumerator PressInternal(GameObject o)
         {
-            yield return WaitFor(new ButtonAccessible(o));
+            yield return WaitFor(new PointerClickAccessible(o));
             Debug.Log("Button pressed: " + o);
             ExecuteEvents.Execute(o, new PointerEventData(EventSystem.current), ExecuteEvents.pointerClickHandler);
             yield return null;
@@ -285,6 +285,64 @@ namespace UnityUITest
                     return "Button " + button + " not found";
                 if (button.GetComponent<Button>() == null)
                     return "GameObject " + button + " does not have a Button component attached";
+                return null;
+            }
+        }
+
+        protected class PointerClickAccessible : Condition
+        {
+            GameObject button;
+
+            public PointerClickAccessible(GameObject button)
+            {
+                this.button = button;
+            }
+
+            public override bool Satisfied()
+            {
+                return GetAccessibilityMessage() == null;
+            }
+
+            public override string ToString()
+            {
+                return GetAccessibilityMessage() ?? "Button " + button.name + " is accessible";
+            }
+
+            string GetAccessibilityMessage()
+            {
+                if (button == null)
+                    return "Button " + button + " not found";
+                if (button.GetComponent<IPointerClickHandler>() == null)
+                    return "GameObject " + button + " does not have a IPointerClickHandler component attached";
+                return null;
+            }
+        }
+
+        protected class PointerDownAccessible : Condition
+        {
+            GameObject button;
+
+            public PointerDownAccessible(GameObject button)
+            {
+                this.button = button;
+            }
+
+            public override bool Satisfied()
+            {
+                return GetAccessibilityMessage() == null;
+            }
+
+            public override string ToString()
+            {
+                return GetAccessibilityMessage() ?? "Button " + button.name + " is accessible";
+            }
+
+            string GetAccessibilityMessage()
+            {
+                if (button == null)
+                    return "Button " + button + " not found";
+                if (button.GetComponent<IPointerDownHandler>() == null)
+                    return "GameObject " + button + " does not have a IPointerDownHandler component attached";
                 return null;
             }
         }
