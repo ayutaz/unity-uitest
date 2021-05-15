@@ -57,7 +57,7 @@ public class UITestExample : UITest
         Assert.AreEqual(mockNetworkClient.mockRequest, "i_need_data");
     }
 
-    [UnityTest]
+    // [UnityTest]
     public IEnumerator FailingBoolCondition()
     {
         yield return LoadScene("TestableGameScene");
